@@ -43,7 +43,7 @@ def get_messages():
     page = request.args.get("page")
     try:
         if chatroom_id and page:
-            cursor.execute("select message,name,date_format(message_time, '%Y-%m-%d %H:%i:%s') as message_time,user_id from messages WHERE chatroom_id="+chatroom_id+" ORDER BY id LIMIT 5 OFFSET "+page+";")
+            cursor.execute("select message,name,date_format(message_time, '%Y-%m-%d %H:%i:%s') as message_time,user_id from messages WHERE chatroom_id="+chatroom_id+" ORDER BY id DESC LIMIT 5 OFFSET "+page+";")
             messages = cursor.fetchall()
             if len(messages)!=0:
                 cursor.execute("SELECT COUNT(*) as total_pages FROM messages")
@@ -92,4 +92,5 @@ def send_message():
         return Response(json.dumps({"message": str(err),"status": "ERROR"}), mimetype='application/json')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port='5000',debug=True)
+    app.run(host='0.0.0.0',port='5000')
+    # , debug = True
